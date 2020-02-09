@@ -40,6 +40,8 @@ cmake_dependent_option(GLFW_USE_WAYLAND "Use Wayland for window creation" OFF
                        "UNIX;NOT APPLE" OFF)
 cmake_dependent_option(USE_MSVC_RUNTIME_LIBRARY_DLL "Use MSVC runtime library DLL" ON
                        "MSVC" OFF)
+cmake_dependent_option(GLFW_USE_LIBDECORATION "use libdecoration" ON
+                       "GLFW_USE_WAYLAND" OFF)
 
 if (BUILD_SHARED_LIBS AND UNIX)
     # On Unix-like systems, shared libraries can use the soname system.
@@ -58,6 +60,8 @@ if (GLFW_VULKAN_STATIC)
 endif()
 
 list(APPEND CMAKE_MODULE_PATH "${GLFW_SOURCE_DIR}/CMake/modules")
+
+include(ExternalProject)
 
 find_package(Threads REQUIRED)
 
