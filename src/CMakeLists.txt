@@ -82,8 +82,8 @@ if (_GLFW_WAYLAND)
         "${WAYLAND_PROTOCOLS_BASE}/unstable/idle-inhibit/idle-inhibit-unstable-v1.xml"
         "${GLFW_BINARY_DIR}/src/wayland-idle-inhibit-unstable-v1-client-protocol")
 
-    if (GLFW_USE_LIBDECORATION)
-        include("${CMAKE_SOURCE_DIR}/external/libdecoration.cmake")
+    if (GLFW_USE_LIBDECOR)
+        include("${CMAKE_SOURCE_DIR}/external/libdecor.cmake")
         add_definitions(-DWITH_DECORATION)
     endif()
 endif()
