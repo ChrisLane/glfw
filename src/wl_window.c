@@ -539,21 +539,6 @@ static GLFWbool createSurfaceDecoration(_GLFWwindow* window)
 }
 #endif
 
-#ifdef WITH_DECORATION
-static GLFWbool createSurfaceDecoration(_GLFWwindow* window)
-{
-    window->wl.decoration_frame = libdecor_decorate(_glfw.wl.csd_context,
-                                                    window->wl.surface,
-                                                    &frame_interface,
-                                                    window);
-    libdecor_frame_map(window->wl.decoration_frame);
-
-    window->wl.scale = 1;
-
-    return GLFW_TRUE;
-}
-#endif
-
 static void setFullscreen(_GLFWwindow* window, _GLFWmonitor* monitor,
                           int refreshRate)
 {
