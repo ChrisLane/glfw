@@ -1199,7 +1199,7 @@ int _glfwPlatformInit(void)
 
     _glfw.wl.timerfd = -1;
     if (_glfw.wl.seatVersion >= 4)
-        _glfw.wl.timerfd = timerfd_create(CLOCK_MONOTONIC, TFD_CLOEXEC);
+        _glfw.wl.timerfd = timerfd_create(CLOCK_MONOTONIC, TFD_CLOEXEC | TFD_NONBLOCK);
 
 #ifndef WITH_DECORATION
     if (!_glfw.wl.wmBase)
@@ -1305,7 +1305,8 @@ void _glfwPlatformTerminate(void)
     if (_glfw.wl.shm)
         wl_shm_destroy(_glfw.wl.shm);
 #ifdef WITH_DECORATION
-    libdecor_unref(_glfw.wl.csd_context);
+    if (_glfw.wl.csd_context)
+        libdecor_unref(_glfw.wl.csd_context);
 #else
     if (_glfw.wl.viewporter)
         wp_viewporter_destroy(_glfw.wl.viewporter);

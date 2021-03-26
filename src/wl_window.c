@@ -539,6 +539,21 @@ static GLFWbool createSurfaceDecoration(_GLFWwindow* window)
 }
 #endif
 
+#ifdef WITH_DECORATION
+static GLFWbool createSurfaceDecoration(_GLFWwindow* window)
+{
+    window->wl.decoration_frame = libdecor_decorate(_glfw.wl.csd_context,
+                                                    window->wl.surface,
+                                                    &frame_interface,
+                                                    window);
+    libdecor_frame_map(window->wl.decoration_frame);
+
+    window->wl.scale = 1;
+
+    return GLFW_TRUE;
+}
+#endif
+
 static void setFullscreen(_GLFWwindow* window, _GLFWmonitor* monitor,
                           int refreshRate)
 {
@@ -1021,8 +1036,8 @@ void _glfwPlatformSetWindowTitle(_GLFWwindow* window, const char* title)
 void _glfwPlatformSetWindowIcon(_GLFWwindow* window,
                                 int count, const GLFWimage* images)
 {
-    _glfwInputError(GLFW_FEATURE_UNAVAILABLE,
-                    "Wayland: The platform does not support setting the window icon");
+    // _glfwInputError(GLFW_FEATURE_UNAVAILABLE,
+    //                 "Wayland: The platform does not support setting the window icon");
 }
 
 void _glfwPlatformGetWindowPos(_GLFWwindow* window, int* xpos, int* ypos)
@@ -1201,8 +1216,8 @@ void _glfwPlatformRequestWindowAttention(_GLFWwindow* window)
 
 void _glfwPlatformFocusWindow(_GLFWwindow* window)
 {
-    _glfwInputError(GLFW_FEATURE_UNAVAILABLE,
-                    "Wayland: The platform does not support setting the input focus");
+    // _glfwInputError(GLFW_FEATURE_UNAVAILABLE,
+    //                 "Wayland: The platform does not support setting the input focus");
 }
 
 void _glfwPlatformSetWindowMonitor(_GLFWwindow* window,
@@ -1606,8 +1621,9 @@ static void lockPointer(_GLFWwindow* window)
     window->wl.pointerLock.relativePointer = relativePointer;
     window->wl.pointerLock.lockedPointer = lockedPointer;
 
-    wl_pointer_set_cursor(_glfw.wl.pointer, _glfw.wl.serial,
-                          NULL, 0, 0);
+    wl_pointer_set_cursor(_glfw.wl.pointer, _glfw.wl.serial, NULL, 0, 0);
+    wl_surface_attach(_glfw.wl.cursorSurface, NULL, 0, 0);
+    wl_surface_commit(_glfw.wl.cursorSurface);
 }
 
 static GLFWbool isPointerLocked(_GLFWwindow* window)
